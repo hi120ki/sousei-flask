@@ -1,0 +1,138 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+{% include "components/navbar.html" %}
+
+<div class="container">
+  <div class="columns m-2">
+    <div class="column is-three-fifths">
+      <div class="box">
+        <h2 class="title is-5">未配達品</h2>
+        <table class="table is-fullwidth is-hoverable is-striped">
+          <thead>
+            <tr>
+              <th>班名</th>
+              <th>品名</th>
+              <th>個数</th>
+              <th>配達</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in undlv_list|reverse %}
+            <tr>
+              <td>{{ u.user_name }}</td>
+              <td>{{ u.item_name }}</td>
+              <td>{{ u.item_num }}</td>
+              <td><a href="/dlv/{{ u.id }}" class="button is-small is-success">配達完了</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="box">
+        <h2 class="title is-5">購入履歴</h2>
+        <table class="table is-fullwidth is-hoverable is-striped">
+          <thead>
+            <tr>
+              <th>班名</th>
+              <th>品名</th>
+              <th>個数</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in log_purchase|reverse %}
+            <tr>
+              <td>{{ p.user_name }}</td>
+              <td>{{ p.item_name }}</td>
+              <td>{{ p.item_num }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="column">
+      <div class="box">
+        <h2 class="title is-5">各班の残金</h2>
+        <table class="table is-fullwidth is-hoverable is-striped">
+          <thead>
+            <tr>
+              <th>班名</th>
+              <th>残金</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for u in user_rest %}
+            <tr>
+              <td>{{ u.user_name }}</td>
+              <td>{{ u.sc_rest }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="box">
+        <h2 class="title is-5">給付</h2>
+        <form action="/prize" method="POST">
+          <div class="field">
+            <label class="label">班名</label>
+            <div class="control">
+              <div class="select">
+                <select name="user_id">
+                  <option>選択</option>
+                  {% for u in user_list %}
+                  <option value="{{ u.id }}">{{ u.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">給付名目</label>
+            <div class="control">
+              <input class="input" type="text" name="prize_name" placeholder="給付名目">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">金額</label>
+            <div class="control">
+              <input class="input" type="number" name="prize_money" placeholder="金額">
+            </div>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <input class="button" type="submit" value="給付">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="box">
+        <h2 class="title is-5">給付履歴</h2>
+        <table class="table is-fullwidth is-hoverable is-striped">
+          <thead>
+            <tr>
+              <th>班名</th>
+              <th>給付名目</th>
+              <th>金額</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in log_income|reverse %}
+            <tr>
+              <td>{{ i.user_name }}</td>
+              <td>{{ i.prize_name }}</td>
+              <td>{{ i.prize_money }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% include "components/footer.html" %}
+
+{% endblock %}

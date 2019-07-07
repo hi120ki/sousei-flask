@@ -1,0 +1,11 @@
+.login-hero {
+  background-image: url("/static/images/login_bg.jpg");
+  background-color: #22222a;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+body {
+  background-color: #e8eaf6;
+}
